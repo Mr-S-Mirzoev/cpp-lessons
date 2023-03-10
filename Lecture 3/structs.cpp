@@ -9,9 +9,9 @@ struct Point
 
 struct Point2
 {
-    int x;
-    double opacity;
-    int y;
+    int x = 0;
+    double opacity = 1.0;
+    int y = 0;
 };
 
 // due to alignment
@@ -27,6 +27,10 @@ int main(int argc, char const *argv[])
         .y = 5,
         .opacity = 0.3
     };
+
+    Point2 pt_default {};
+    std::cout << "pt_default.y: " << pt_default.y << std::endl;
+    std::cout << "pt_default.opacity: " << pt_default.opacity << std::endl;
 
     Point pt2 {4, 3, 1.0};
 

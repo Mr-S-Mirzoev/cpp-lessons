@@ -7,6 +7,26 @@ LinkedListNode* merge(LinkedListNode* head1, LinkedListNode* head2)
     return nullptr;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 bool check_sorted(LinkedListNode *head)
 {
     if (!head || !head->next)
