@@ -23,9 +23,9 @@ int main(int argc, char const *argv[])
     std::cout << "sizeof(Point2): " << sizeof(Point2) << std::endl;
 
     Point pt1 {
-        .opacity = 0.3,
         .x = 4,
-        .y = 5
+        .y = 5,
+        .opacity = 0.3
     };
 
     Point pt2 {4, 3, 1.0};

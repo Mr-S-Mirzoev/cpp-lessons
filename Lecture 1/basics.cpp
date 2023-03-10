@@ -36,11 +36,11 @@ int main(int argc, char const *argv[])
 
     bool flag = true; // false;
 
-    short; // 16 bits
-    unsigned;
-    signed; // can be omitted (default)
-    long; // always 32 bits
-    long long; // always 64 bits
+    // short; // 16 bits
+    // unsigned;
+    // signed; // can be omitted (default)
+    // long; // always 32 bits
+    // long long; // always 64 bits
 
     int i; // default assigned to 0
     const int INT_SIZE = sizeof(int);
@@ -60,8 +60,8 @@ int main(int argc, char const *argv[])
     */
     const char *hello {"Hello, world!"};
 
-    // Unicode symbols can also be used, as of C++11.
-    const char *gbp = u8"£";
+    // Unicode symbols can also be used, as of C++11. [Platform-dependant]
+    // const char *gbp = u8"£";
 
     return 0;
 }
