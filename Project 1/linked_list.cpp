@@ -4,7 +4,43 @@
 
 LinkedListNode* merge(LinkedListNode* head1, LinkedListNode* head2)
 {
-    return nullptr;
+    LinkedListNode *result;
+    LinkedListNode **current = &result;
+
+    while (1)
+    {
+        if (!head1)
+        {
+            *current = head2;
+            break;
+        }
+
+        if (!head2)
+        {
+            *current = head1;
+            break;
+        }
+
+        LinkedListNode *new_node;
+        if (head1->val < head2->val)
+        {
+            new_node = head1;
+            head1 = head1->next;
+            new_node->next = *current;
+            *current = new_node;
+        }
+        else
+        {
+            new_node = head2;
+            head2 = head2->next;
+            new_node->next = *current;
+            *current = new_node;
+        }
+
+        current = &((*current)->next);
+    }
+
+    return result;
 }
 
 bool check_sorted(LinkedListNode *head)
