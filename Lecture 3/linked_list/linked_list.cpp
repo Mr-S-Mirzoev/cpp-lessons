@@ -7,26 +7,6 @@ LinkedListNode* merge(LinkedListNode* head1, LinkedListNode* head2)
     return nullptr;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 bool check_sorted(LinkedListNode *head)
 {
     if (!head || !head->next)
@@ -63,6 +43,7 @@ void print_list(LinkedListNode *head)
     while (head)
     {
         std::cout << head->val << " ";
+        head = head->next;
     }
     std::cout << "}" << std::endl;
 }
