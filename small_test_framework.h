@@ -67,6 +67,8 @@ using TestException = std::runtime_error;
 #define TEST_MAIN_END()                         \
             std::cout << count - asserted << " checks SUCCEED out of " << count << std::endl; \
         } catch (TestException e) {             \
-            std::cout << e.what() << std::endl; \
+            std::cerr << e.what() << std::endl; \
+            return 1;                           \
         }                                       \
+        return asserted == 0 ? 0 : 1;           \
     }
