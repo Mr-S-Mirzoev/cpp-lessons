@@ -148,10 +148,13 @@ inline void HashTable<KeyT, ValT, HashF>::remove(KeyT const& key) noexcept
     if (bucket.empty())
         return;
 
+    // clang-format off
     bucket.erase(
         std::remove_if(bucket.begin(), bucket.end(),
                        [&key](Entry& entry) { return entry.key == key; }),
-        bucket.end());
+        bucket.end()
+    );
+    // clang-format on
 
     if (bucket.empty())
         --bucks_occupied_;
