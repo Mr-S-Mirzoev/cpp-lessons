@@ -16,7 +16,7 @@ using TestException = std::runtime_error;
 #define STRINGIZE2(x) #x
 #define LINE_STRING STRINGIZE(__LINE__)
 
-#define RAISE(err_str) TestException(std::string(STRINGIZE(err_str) ))
+#define RAISE(err_str) TestException(std::string(STRINGIZE(err_str)))
 
 #define ASSERT_EQ(arg1, arg2)                                                  \
     ++count;                                                                   \
