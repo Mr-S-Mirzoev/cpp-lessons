@@ -1,6 +1,7 @@
 #include "stf.h"
 #include "vector.h"
 
+// clang-format off
 TEST_MAIN_BEGIN()
 {
 UNIT_TEST_BEGIN(Vector, vec_utils)
@@ -17,3 +18,4 @@ UNIT_TEST_BEGIN(Vector, vec_utils)
 UNIT_TEST_END(Vector, vec_utils)
 }
 TEST_MAIN_END()
+// clang-format on

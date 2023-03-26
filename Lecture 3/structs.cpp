@@ -17,22 +17,18 @@ struct Point2
 // due to alignment
 static_assert(sizeof(Point) != sizeof(Point2));
 
-int main(int argc, char const *argv[])
+int main(int argc, char const* argv[])
 {
     std::cout << "sizeof(Point): " << sizeof(Point) << std::endl;
     std::cout << "sizeof(Point2): " << sizeof(Point2) << std::endl;
 
-    Point pt1 {
-        .x = 4,
-        .y = 5,
-        .opacity = 0.3
-    };
+    Point pt1{.x = 4, .y = 5, .opacity = 0.3};
 
-    Point2 pt_default {};
+    Point2 pt_default{};
     std::cout << "pt_default.y: " << pt_default.y << std::endl;
     std::cout << "pt_default.opacity: " << pt_default.opacity << std::endl;
 
-    Point pt2 {4, 3, 1.0};
+    Point pt2{4, 3, 1.0};
 
     std::cout << "pt1.y: " << pt1.y << std::endl;
 

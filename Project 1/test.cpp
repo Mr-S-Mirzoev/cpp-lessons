@@ -1,13 +1,13 @@
-#include "stf.h"
 #include "linked_list.h"
+#include "stf.h"
 
+// clang-format off
 TEST_MAIN_BEGIN()
 {
-UNIT_TEST_BEGIN(LinkedList, ll_utils)
-{
-    LinkedListNode *head1 = new LinkedListNode({nullptr, 5});
+UNIT_TEST_BEGIN(LinkedList, ll_utils) {
+    LinkedListNode* head1 = new LinkedListNode({nullptr, 5});
     head1->next = new LinkedListNode({nullptr, -2});
-    LinkedListNode *head2 = new LinkedListNode({nullptr, 3});
+    LinkedListNode* head2 = new LinkedListNode({nullptr, 3});
     head2->next = new LinkedListNode({nullptr, 4});
     head2->next->next = new LinkedListNode({nullptr, 5});
 
@@ -24,13 +24,14 @@ UNIT_TEST_BEGIN(LinkedList, ll_utils)
     print_list(head2);
 }
 UNIT_TEST_END(LinkedList, ll_utils)
+// clang-format on
 
 UNIT_TEST_BEGIN(LinkedList, simple)
 {
-    LinkedListNode *head1 = new LinkedListNode({nullptr, 5});
-    LinkedListNode *head2 = new LinkedListNode({nullptr, 3});
+    LinkedListNode* head1 = new LinkedListNode({nullptr, 5});
+    LinkedListNode* head2 = new LinkedListNode({nullptr, 3});
 
-    LinkedListNode *head = merge(head1, head2);
+    LinkedListNode* head = merge(head1, head2);
 
     ASSERT_FALSE(head == nullptr);
     EXPECT_TRUE(check_sorted(head));
@@ -42,13 +43,13 @@ UNIT_TEST_END(LinkedList, simple)
 
 UNIT_TEST_BEGIN(LinkedList, two_lists)
 {
-    LinkedListNode *head1 = new LinkedListNode({nullptr, 5});
+    LinkedListNode* head1 = new LinkedListNode({nullptr, 5});
     head1->next = new LinkedListNode({nullptr, 8});
-    LinkedListNode *head2 = new LinkedListNode({nullptr, -2});
+    LinkedListNode* head2 = new LinkedListNode({nullptr, -2});
     head2->next = new LinkedListNode({nullptr, 4});
     head2->next->next = new LinkedListNode({nullptr, 5});
 
-    LinkedListNode *head = merge(head1, head2);
+    LinkedListNode* head = merge(head1, head2);
 
     ASSERT_FALSE(head == nullptr);
     EXPECT_TRUE(check_sorted(head));
@@ -60,12 +61,12 @@ UNIT_TEST_END(LinkedList, two_lists)
 
 UNIT_TEST_BEGIN(LinkedList, one_empty)
 {
-    LinkedListNode *head1 = nullptr;
-    LinkedListNode *head2 = new LinkedListNode({nullptr, -2});
+    LinkedListNode* head1 = nullptr;
+    LinkedListNode* head2 = new LinkedListNode({nullptr, -2});
     head2->next = new LinkedListNode({nullptr, 4});
     head2->next->next = new LinkedListNode({nullptr, 5});
 
-    LinkedListNode *head = merge(head1, head2);
+    LinkedListNode* head = merge(head1, head2);
 
     ASSERT_FALSE(head == nullptr);
     EXPECT_TRUE(check_sorted(head));

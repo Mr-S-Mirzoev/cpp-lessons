@@ -18,19 +18,20 @@ constexpr unsigned factorial(unsigned i)
     }
     ```
 
-    Here are the main differences between ternary operators and if-else blocks: 
-    1) A ternary operator is a single statement, while an if-else is a block of code. 
-    2) A ternary operator is faster than an if-else block. Ternary operators can be used 
-    in places where if-else blocks are not allowed.
+    Here are the main differences between ternary operators and if-else blocks:
+    1) A ternary operator is a single statement, while an if-else is a block of
+    code. 2) A ternary operator is faster than an if-else block. Ternary
+    operators can be used in places where if-else blocks are not allowed.
     */
 }
 
 const unsigned FACTORIAL_4 = factorial(4);
 
-int main(int argc, char const *argv[])
+int main(int argc, char const* argv[])
 {
-    char c = 'a'; // char is always 1 byte, usually used to store human-readable characters in some encoding
-    char c_data {5};
+    char c = 'a'; // char is always 1 byte, usually used to store human-readable
+                  // characters in some encoding
+    char c_data{5};
 
     unsigned char x = 255;
 
@@ -56,9 +57,10 @@ int main(int argc, char const *argv[])
     /*
     For const string literals `const char *` can be used
     UTF-8 is the default source encoding with most modern compilers.
-    [Source: https://stackoverflow.com/questions/9739070/char-encoding#:~:text=UTF%2D8%20is%20the%20default%20source%20encoding%20with%20most%20modern%20compilers.
+    [Source:
+    https://stackoverflow.com/questions/9739070/char-encoding#:~:text=UTF%2D8%20is%20the%20default%20source%20encoding%20with%20most%20modern%20compilers.
     */
-    const char *hello {"Hello, world!"};
+    const char* hello{"Hello, world!"};
 
     // Unicode symbols can also be used, as of C++11. [Platform-dependant]
     // const char *gbp = u8"£";

@@ -2,7 +2,7 @@
 
 class Vector
 {
-    int *data_ = nullptr;
+    int* data_ = nullptr;
     int size_ = 0;
     int capacity_ = 0;
 
