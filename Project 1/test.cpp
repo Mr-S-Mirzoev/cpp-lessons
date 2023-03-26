@@ -1,4 +1,4 @@
-#include "small_test_framework.h"
+#include "stf.h"
 #include "linked_list.h"
 
 TEST_MAIN_BEGIN()
@@ -11,8 +11,8 @@ UNIT_TEST_BEGIN(LinkedList, ll_utils)
     head2->next = new LinkedListNode({nullptr, 4});
     head2->next->next = new LinkedListNode({nullptr, 5});
 
-    EXPECT_FALSE(head1 == nullptr);
-    EXPECT_FALSE(head2 == nullptr);
+    ASSERT_FALSE(head1 == nullptr);
+    ASSERT_FALSE(head2 == nullptr);
     EXPECT_FALSE(check_sorted(head1));
     EXPECT_TRUE(check_sorted(head2));
     EXPECT_TRUE(check_sorted(nullptr));
@@ -32,7 +32,7 @@ UNIT_TEST_BEGIN(LinkedList, simple)
 
     LinkedListNode *head = merge(head1, head2);
 
-    EXPECT_FALSE(head == nullptr);
+    ASSERT_FALSE(head == nullptr);
     EXPECT_TRUE(check_sorted(head));
     EXPECT_EQ(get_size(head), 2);
 
@@ -50,7 +50,7 @@ UNIT_TEST_BEGIN(LinkedList, two_lists)
 
     LinkedListNode *head = merge(head1, head2);
 
-    EXPECT_FALSE(head == nullptr);
+    ASSERT_FALSE(head == nullptr);
     EXPECT_TRUE(check_sorted(head));
     EXPECT_EQ(get_size(head), 5);
 
@@ -67,7 +67,7 @@ UNIT_TEST_BEGIN(LinkedList, one_empty)
 
     LinkedListNode *head = merge(head1, head2);
 
-    EXPECT_FALSE(head == nullptr);
+    ASSERT_FALSE(head == nullptr);
     EXPECT_TRUE(check_sorted(head));
     EXPECT_EQ(get_size(head), 3);
 

@@ -1,4 +1,4 @@
-#include "small_test_framework.h"
+#include "stf.h"
 #include "vector.h"
 
 TEST_MAIN_BEGIN()

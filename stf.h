@@ -2,6 +2,7 @@
 
 // (c) Copyright 2023. Author: Sergey Mirzoev
 // GH: @Mr-S-Mirzoev.
+// STF stands for small test framework
 //
 // Free distribution and use with the preservation of author rights (this header)
 
@@ -80,7 +81,7 @@ using TestException = std::runtime_error;
         else                                 \
             std::cout << "[   FAILED ] " #test_suite "." #test_name << std::endl; \
     } catch (TestException e) {                \
-        std::cout << "[  XFAILED ] " #test_suite "." #test_name << std::endl; \
+        std::cout << "[ ASSERTED ] " #test_suite "." #test_name ": " << e.what() << std::endl; \
     }
 
 #define TEST_MAIN_BEGIN()                  \
