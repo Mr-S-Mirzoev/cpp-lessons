@@ -23,7 +23,7 @@ public:
     ValT get(KeyT const& key) const;
     ValT& get(KeyT const& key);
 
-    void remove(KeyT const &key) noexcept;
+    void remove(KeyT const& key) noexcept;
 
     std::size_t size() const noexcept;
 
@@ -37,21 +37,20 @@ protected:
     double load_factor() const noexcept;
     std::size_t bucket_size() const noexcept;
     std::size_t bucks_occupied() const noexcept;
-    typename HashF::value_type hash(KeyT const &key) const noexcept;
+    typename HashF::value_type hash(KeyT const& key) const noexcept;
 
 private:
     std::size_t bucks_occupied_ = 0;
     std::size_t buck_sz = MIN_BUCKET_SIZE;
 
     std::size_t size_ = 0;
-    std::vector <std::list <Entry>> storage_;
+    std::vector<std::list<Entry>> storage_;
 
     void add(Entry&& entry) noexcept;
 
-    auto find(typename HashF::value_type& hash, KeyT const &key);
+    auto find(typename HashF::value_type& hash, KeyT const& key);
 
-    template <bool shrink = false>
-    void rehash() noexcept;
+    template <bool shrink = false> void rehash() noexcept;
 };
 
 #include "private/hash_table_impl.h"

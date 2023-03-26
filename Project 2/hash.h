@@ -1,7 +1,6 @@
 #pragma once
 
-template <typename T>
-class HashFunction
+template <typename T> class HashFunction
 {
 };
 

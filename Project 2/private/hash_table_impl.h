@@ -4,21 +4,19 @@
 #include <utility>
 
 template <typename KeyT, typename ValT, typename HashF>
-inline typename HashF::value_type HashTable<KeyT, ValT, HashF>::hash(KeyT const &key) const noexcept
+inline typename HashF::value_type
+HashTable<KeyT, ValT, HashF>::hash(KeyT const& key) const noexcept
 {
     return HashF()(key) % buck_sz;
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline auto HashTable<KeyT, ValT, HashF>::find(typename HashF::value_type &hash, KeyT const &key)
+inline auto HashTable<KeyT, ValT, HashF>::find(typename HashF::value_type& hash,
+                                               KeyT const& key)
 {
     auto& bucket = storage_[hash];
-    auto it = std::find_if(
-        bucket.begin(),
-        bucket.end(),
-        [&key](Entry& entry){
-            return entry.key == key;
-        });
+    auto it = std::find_if(bucket.begin(), bucket.end(),
+                           [&key](Entry& entry) { return entry.key == key; });
     return it;
 }
 
@@ -44,7 +42,7 @@ template <typename KeyT, typename ValT, typename HashF>
 template <bool shrink>
 inline void HashTable<KeyT, ValT, HashF>::rehash() noexcept
 {
-    std::vector <std::list <Entry>> new_storage;
+    std::vector<std::list<Entry>> new_storage;
     if constexpr (shrink)
         buck_sz /= ALPHA_FACTOR;
     else
@@ -57,9 +55,9 @@ inline void HashTable<KeyT, ValT, HashF>::rehash() noexcept
         auto it = src_bucket.begin();
         while (it != src_bucket.end())
         {
-            auto next_it {std::next(it)};
-            auto el_hash {HashF{}(it->key) % buck_sz};
-            auto &dest_bucket {new_storage[el_hash]};
+            auto next_it{std::next(it)};
+            auto el_hash{HashF{}(it->key) % buck_sz};
+            auto& dest_bucket{new_storage[el_hash]};
 
             if (dest_bucket.empty())
                 ++bucks_occupied_;
@@ -73,13 +71,12 @@ inline void HashTable<KeyT, ValT, HashF>::rehash() noexcept
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline HashTable<KeyT, ValT, HashF>::HashTable()
-    : size_(0), storage_(buck_sz)
+inline HashTable<KeyT, ValT, HashF>::HashTable() : size_(0), storage_(buck_sz)
 {
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline void HashTable<KeyT, ValT, HashF>::add(Entry &&entry) noexcept
+inline void HashTable<KeyT, ValT, HashF>::add(Entry&& entry) noexcept
 {
     ++size_;
     auto buck_id = hash(entry.key);
@@ -106,22 +103,24 @@ inline void HashTable<KeyT, ValT, HashF>::add(Entry &&entry) noexcept
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline void HashTable<KeyT, ValT, HashF>::add(KeyT const &key, ValT const &val) noexcept
+inline void HashTable<KeyT, ValT, HashF>::add(KeyT const& key,
+                                              ValT const& val) noexcept
 {
     add(Entry{key, val});
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline void HashTable<KeyT, ValT, HashF>::emplace(KeyT const &key, ValT &&val) noexcept
+inline void HashTable<KeyT, ValT, HashF>::emplace(KeyT const& key,
+                                                  ValT&& val) noexcept
 {
     add(Entry{key, std::move(val)});
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline ValT HashTable<KeyT, ValT, HashF>::get(KeyT const &key) const
+inline ValT HashTable<KeyT, ValT, HashF>::get(KeyT const& key) const
 {
-    auto buck_id { hash(key) };
-    auto& bucket {storage_[buck_id]};
+    auto buck_id{hash(key)};
+    auto& bucket{storage_[buck_id]};
 
     auto it = find(buck_id, key);
     if (it == bucket.end())
@@ -130,10 +129,10 @@ inline ValT HashTable<KeyT, ValT, HashF>::get(KeyT const &key) const
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline ValT& HashTable<KeyT, ValT, HashF>::get(KeyT const &key)
+inline ValT& HashTable<KeyT, ValT, HashF>::get(KeyT const& key)
 {
-    auto buck_id { hash(key) };
-    auto& bucket {storage_[buck_id]};
+    auto buck_id{hash(key)};
+    auto& bucket{storage_[buck_id]};
 
     auto it = find(buck_id, key);
     if (it == bucket.end())
@@ -142,20 +141,17 @@ inline ValT& HashTable<KeyT, ValT, HashF>::get(KeyT const &key)
 }
 
 template <typename KeyT, typename ValT, typename HashF>
-inline void HashTable<KeyT, ValT, HashF>::remove(KeyT const &key) noexcept
+inline void HashTable<KeyT, ValT, HashF>::remove(KeyT const& key) noexcept
 {
-    auto bucket_id {hash(key)};
+    auto bucket_id{hash(key)};
     auto& bucket = storage_[bucket_id];
     if (bucket.empty())
         return;
 
-    bucket.erase(std::remove_if(
-        bucket.begin(),
-        bucket.end(),
-        [&key](Entry& entry){
-            return entry.key == key;
-        }
-    ), bucket.end());
+    bucket.erase(
+        std::remove_if(bucket.begin(), bucket.end(),
+                       [&key](Entry& entry) { return entry.key == key; }),
+        bucket.end());
 
     if (bucket.empty())
         --bucks_occupied_;
