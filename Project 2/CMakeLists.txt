@@ -1,17 +1,15 @@
 cmake_minimum_required(VERSION 3.8)
 
 project(
-    vector_basic
+    hash_table
     VERSION 0.0.1
     LANGUAGES CXX)
 
-add_library(${PROJECT_NAME} SHARED vector.cpp vector.h)
-
-set(TEST_NAME vec_oop_test)
+set(TEST_NAME hash_table_test)
 
 add_executable(${TEST_NAME} ${PROJECT_SOURCE_DIR}/test.cpp)
 target_include_directories(${TEST_NAME} PRIVATE ${PROJECT_ROOT_DIR})
-target_link_libraries(${TEST_NAME} ${PROJECT_NAME})
+target_include_directories(${TEST_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 
-add_test(NAME vector_test
+add_test(NAME ${TEST_NAME}
          COMMAND $<TARGET_FILE:${TEST_NAME}>)

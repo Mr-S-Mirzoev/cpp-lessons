@@ -1,6 +1,6 @@
 # Hash table
 
-Implement a [hash table](https://www.tutorialspoint.com/data_structures_algorithms/hash_data_structure.htm) as a template class:
+Implement a [hash table](https://en.wikipedia.org/wiki/Hash_table) as a template class:
 
 ```cpp
 template <typename KeyT, typename ValT, typename HashF>
@@ -13,6 +13,6 @@ public:
     ValT get(KeyT const &key) const;
     ValT& get(KeyT const &key);
 
-    void delete(KeyT const &key);
+    void remove(KeyT const &key);
 };
 ```

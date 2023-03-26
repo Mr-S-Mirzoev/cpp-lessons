@@ -1,0 +1,175 @@
+#include "stf.h"
+#include "hash_table.h"
+
+#include <iostream>
+#include <random>
+
+using size_type = std::mt19937::result_type;
+
+TEST_MAIN_BEGIN()
+{
+UNIT_TEST_BEGIN(HashTable, simple)
+{
+    HashTable <size_type, double> hashtable;
+
+    // Initialize rnd generators
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<size_type> dist_sample(300, 600);
+    std::uniform_int_distribution<size_type> dist_op(0, 2);
+    std::default_random_engine eng;
+    std::uniform_real_distribution<double> unif(-0.5, 0.5);
+    size_type sample_sz{dist_sample(rng)};
+
+    for (size_type i = 0; i < sample_sz; ++i)
+    {
+        auto key = dist_sample(rng);
+        if (dist_op(rng) % 3 == 0)
+        {
+            ASSERT_NO_THROW(hashtable.remove(key));
+            std::cout << "Tried removing value with key: " << key
+                    << "; Load factor: " << hashtable.load_factor() 
+                    << "; Buck sz: " << hashtable.bucket_size()
+                    << "; Hash: " << hashtable.hash(key)
+                    << "; Buck occ: " << hashtable.bucks_occupied() << std::endl;
+        }
+        else
+        {
+            ASSERT_NO_THROW(hashtable.add(key, unif(eng)));
+            std::cout << "Added " << hashtable.size() + 1 << "-th value. Key: " << key
+                    << "; Load factor: " << hashtable.load_factor() 
+                    << "; Buck sz: " << hashtable.bucket_size()
+                    << "; Hash: " << hashtable.hash(key)
+                    << "; Buck occ: " << hashtable.bucks_occupied() << std::endl;
+        }
+    }
+
+    for (size_type i = 0; i < sample_sz; ++i)
+    {
+        auto requested_key = dist_sample(rng);
+        try
+        {
+            auto& val = hashtable.get(requested_key);
+            std::cout << "Value for [" << requested_key << "] = " << val << std::endl;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Exc thrown: " << e.what() << " for key=" << requested_key << std::endl;
+        }
+        
+    }
+    return 0;
+
+    LinkedListNode *head1 = new LinkedListNode({nullptr, 5});
+    head1->next = new LinkedListNode({nullptr, -2});
+    LinkedListNode *head2 = new LinkedListNode({nullptr, 3});
+    head2->next = new LinkedListNode({nullptr, 4});
+    head2->next->next = new LinkedListNode({nullptr, 5});
+
+    ASSERT_FALSE(head1 == nullptr);
+    ASSERT_FALSE(head2 == nullptr);
+    EXPECT_FALSE(check_sorted(head1));
+    EXPECT_TRUE(check_sorted(head2));
+    EXPECT_TRUE(check_sorted(nullptr));
+    EXPECT_EQ(get_size(head1), 2);
+    EXPECT_EQ(get_size(head2), 3);
+    EXPECT_EQ(get_size(nullptr), 0);
+
+    print_list(head1);
+    print_list(head2);
+}
+UNIT_TEST_END(HashTable, simple)
+
+UNIT_TEST_BEGIN(LinkedList, simple)
+{
+    LinkedListNode *head1 = new LinkedListNode({nullptr, 5});
+    LinkedListNode *head2 = new LinkedListNode({nullptr, 3});
+
+    LinkedListNode *head = merge(head1, head2);
+
+    ASSERT_FALSE(head == nullptr);
+    EXPECT_TRUE(check_sorted(head));
+    EXPECT_EQ(get_size(head), 2);
+
+    print_list(head);
+}
+UNIT_TEST_END(LinkedList, simple)
+
+UNIT_TEST_BEGIN(LinkedList, two_lists)
+{
+    LinkedListNode *head1 = new LinkedListNode({nullptr, 5});
+    head1->next = new LinkedListNode({nullptr, 8});
+    LinkedListNode *head2 = new LinkedListNode({nullptr, -2});
+    head2->next = new LinkedListNode({nullptr, 4});
+    head2->next->next = new LinkedListNode({nullptr, 5});
+
+    LinkedListNode *head = merge(head1, head2);
+
+    ASSERT_FALSE(head == nullptr);
+    EXPECT_TRUE(check_sorted(head));
+    EXPECT_EQ(get_size(head), 5);
+
+    print_list(head);
+}
+UNIT_TEST_END(LinkedList, two_lists)
+
+UNIT_TEST_BEGIN(LinkedList, one_empty)
+{
+    LinkedListNode *head1 = nullptr;
+    LinkedListNode *head2 = new LinkedListNode({nullptr, -2});
+    head2->next = new LinkedListNode({nullptr, 4});
+    head2->next->next = new LinkedListNode({nullptr, 5});
+
+    LinkedListNode *head = merge(head1, head2);
+
+    ASSERT_FALSE(head == nullptr);
+    EXPECT_TRUE(check_sorted(head));
+    EXPECT_EQ(get_size(head), 3);
+
+    print_list(head);
+}
+UNIT_TEST_END(LinkedList, one_empty)
+}
+TEST_MAIN_END()
+
+int main(int argc, char const *argv[])
+{
+    for (size_type i = 0; i < sample_sz; ++i)
+    {
+        auto key = dist_sample(rng);
+        if (dist_op(rng) % 3 == 0)
+        {
+            hashtable.remove(key);
+            std::cout << "Tried removing value with key: " << key
+                    << "; Load factor: " << hashtable.load_factor() 
+                    << "; Buck sz: " << hashtable.bucket_size()
+                    << "; Hash: " << hashtable.hash(key)
+                    << "; Buck occ: " << hashtable.bucks_occupied() << std::endl;
+        }
+        else
+        {
+            hashtable.add(key, unif(eng));
+            std::cout << "Added " << hashtable.size() + 1 << "-th value. Key: " << key
+                    << "; Load factor: " << hashtable.load_factor() 
+                    << "; Buck sz: " << hashtable.bucket_size()
+                    << "; Hash: " << hashtable.hash(key)
+                    << "; Buck occ: " << hashtable.bucks_occupied() << std::endl;
+        }
+    }
+
+    for (size_type i = 0; i < sample_sz; ++i)
+    {
+        auto requested_key = dist_sample(rng);
+        try
+        {
+            auto& val = hashtable.get(requested_key);
+            std::cout << "Value for [" << requested_key << "] = " << val << std::endl;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Exc thrown: " << e.what() << " for key=" << requested_key << std::endl;
+        }
+        
+    }
+    return 0;
+}

@@ -42,6 +42,14 @@ using TestException = std::runtime_error;
 #define ASSERT_THROW_ANY(arg) \
     ASSERT_THROW_TYPE(arg, std::exception);
 
+#define ASSERT_NO_THROW(arg) \
+    ++count;              \
+    try {                 \
+        arg;              \
+    } catch (...) {                      \
+        throw RAISE("Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") shouldn't throw an exception"); \
+    };
+
 #define EXPECT_EQ(arg1, arg2) \
     ++count;                  \
     if (arg1 != arg2) {       \
@@ -61,14 +69,25 @@ using TestException = std::runtime_error;
     ++count;              \
     try {                 \
         arg;              \
+        passed = false;   \
         std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") should throw an exception." << std::endl; \
     } catch (exception_type e) {         \
     } catch (...) {                      \
+        passed = false;                  \
         std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") should throw an exception of different type" << std::endl; \
     };
 
 #define EXPECT_THROW_ANY(arg) \
     EXPECT_THROW_TYPE(arg, std::exception);
+
+#define EXPECT_NO_THROW(arg) \
+    ++count;              \
+    try {                 \
+        arg;              \
+    } catch (...) {                      \
+        passed = false;                  \
+        std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") shouldn't throw an exception." << std::endl; \
+    };
 
 #define UNIT_TEST_BEGIN(test_suite, test_name) \
     std::cout << "[ RUN      ] " #test_suite "." #test_name << std::endl; \
