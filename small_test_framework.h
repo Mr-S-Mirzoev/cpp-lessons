@@ -28,14 +28,46 @@ using TestException = std::runtime_error;
 #define ASSERT_FALSE(arg) \
     ASSERT_EQ(arg, false);
 
+#define ASSERT_THROW_TYPE(arg, exception_type) \
+    ++count;              \
+    try {                 \
+        arg;              \
+        throw RAISE("Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") should throw an exception."); \
+    } catch (exception_type e) {         \
+    } catch (...) {                      \
+        throw RAISE("Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") should throw an exception of different type"); \
+    };
+
+#define ASSERT_THROW_ANY(arg) \
+    ASSERT_THROW_TYPE(arg, std::exception);
+
 #define EXPECT_EQ(arg1, arg2) \
     ++count;                  \
     if (arg1 != arg2) {       \
-        std::cout << "Test error occured at " __FILE__ ":" LINE_STRING " (" #arg1 " is not equal to " #arg2 "):" << std::endl; \
-        std::cout << "\"" << (arg1) << "\"" << " != " << "\"" << (arg2) << "\"" << std::endl; \
+        std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING " (" #arg1 " is not equal to " #arg2 "):" << std::endl; \
+        std::cerr << "\"" << (arg1) << "\"" << " != " << "\"" << (arg2) << "\"" << std::endl; \
         passed = false;       \
         ++asserted;           \
     }
+
+#define EXPECT_TRUE(arg) \
+    EXPECT_EQ(arg, true);
+
+#define EXPECT_FALSE(arg) \
+    EXPECT_EQ(arg, false);
+
+#define EXPECT_THROW_TYPE(arg, exception_type) \
+    ++count;              \
+    try {                 \
+        arg;              \
+        std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") should throw an exception." << std::endl; \
+    } catch (exception_type e) {         \
+    } catch (...) {                      \
+        std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING " (" #arg ") should throw an exception of different type" << std::endl; \
+    };
+
+#define EXPECT_THROW_ANY(arg) \
+    EXPECT_THROW_TYPE(arg, std::exception);
 
 #define UNIT_TEST_BEGIN(test_suite, test_name) \
     std::cout << "[ RUN      ] " #test_suite "." #test_name << std::endl; \
@@ -50,12 +82,6 @@ using TestException = std::runtime_error;
     } catch (TestException e) {                \
         std::cout << "[  XFAILED ] " #test_suite "." #test_name << std::endl; \
     }
-
-#define EXPECT_TRUE(arg) \
-    EXPECT_EQ(arg, true);
-
-#define EXPECT_FALSE(arg) \
-    EXPECT_EQ(arg, false);
 
 #define TEST_MAIN_BEGIN()                  \
     int main(int argc, char const *argv[]) \
