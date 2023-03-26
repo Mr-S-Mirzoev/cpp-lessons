@@ -4,8 +4,8 @@
 
 LinkedListNode* merge(LinkedListNode* head1, LinkedListNode* head2)
 {
-    LinkedListNode *result;
-    LinkedListNode **current = &result;
+    LinkedListNode* result;
+    LinkedListNode** current = &result;
 
     while (1)
     {
@@ -21,7 +21,7 @@ LinkedListNode* merge(LinkedListNode* head1, LinkedListNode* head2)
             break;
         }
 
-        LinkedListNode *new_node;
+        LinkedListNode* new_node;
         if (head1->val < head2->val)
         {
             new_node = head1;
@@ -43,7 +43,7 @@ LinkedListNode* merge(LinkedListNode* head1, LinkedListNode* head2)
     return result;
 }
 
-bool check_sorted(LinkedListNode *head)
+bool check_sorted(LinkedListNode* head)
 {
     if (!head || !head->next)
         return true;
@@ -61,7 +61,7 @@ bool check_sorted(LinkedListNode *head)
     return true;
 }
 
-int get_size(LinkedListNode *head)
+int get_size(LinkedListNode* head)
 {
     int size = 0;
     while (head)
@@ -73,7 +73,7 @@ int get_size(LinkedListNode *head)
     return size;
 }
 
-void print_list(LinkedListNode *head)
+void print_list(LinkedListNode* head)
 {
     std::cout << "{ ";
     while (head)
