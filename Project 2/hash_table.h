@@ -27,18 +27,19 @@ public:
 
     std::size_t size() const noexcept;
 
-    // TODO: move back into private.
-    double load_factor() const noexcept;
-    std::size_t bucket_size() const noexcept;
-    std::size_t bucks_occupied() const noexcept;
-    typename HashF::value_type hash(KeyT const &key) const noexcept;
-
 private:
     static constexpr double ALPHA_MIN = 0.6;
     static constexpr double ALPHA_FACTOR = 1.5;
     static constexpr double ALPHA_MAX = 0.75;
     static constexpr std::size_t MIN_BUCKET_SIZE = 8;
 
+protected:
+    double load_factor() const noexcept;
+    std::size_t bucket_size() const noexcept;
+    std::size_t bucks_occupied() const noexcept;
+    typename HashF::value_type hash(KeyT const &key) const noexcept;
+
+private:
     std::size_t bucks_occupied_ = 0;
     std::size_t buck_sz = MIN_BUCKET_SIZE;
 

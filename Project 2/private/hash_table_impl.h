@@ -82,10 +82,21 @@ template <typename KeyT, typename ValT, typename HashF>
 inline void HashTable<KeyT, ValT, HashF>::add(Entry &&entry) noexcept
 {
     ++size_;
-    auto& bucket = storage_[hash(entry.key)];
+    auto buck_id = hash(entry.key);
+    auto& bucket = storage_[buck_id];
     if (bucket.empty())
+    {
         ++bucks_occupied_;
-    bucket.emplace_back(std::move(entry));
+        bucket.emplace_back(std::move(entry));
+    }
+    else
+    {
+        auto it = find(buck_id, entry.key);
+        if (it == bucket.end())
+            bucket.emplace_back(std::move(entry));
+        else
+            it->val = std::move(entry.val);
+    }
 
     auto alpha = load_factor();
     if (alpha > ALPHA_MAX)
