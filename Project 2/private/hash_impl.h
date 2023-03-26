@@ -3,7 +3,8 @@
 #include <cstdint>
 #include <type_traits>
 
-template <class T> concept Integral = std::is_integral<T>::value;
+template <class T>
+concept Integral = std::is_integral<T>::value;
 
 template <Integral T> class HashFunction<T>
 {
