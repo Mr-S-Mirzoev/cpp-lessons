@@ -19,21 +19,25 @@ and the cat meows, etc.):
 class Animal
 {
 public:
-    void talk() { std::cout << "The animal makes a sound" << std::endl; }
+    virtual void talk()
+    {
+        std::cout << "The animal makes a sound" << std::endl;
+    }
 };
 
 // Derived class
 class Pig : public Animal
 {
 public:
-    void talk() { std::cout << "The pig says: wee wee" << std::endl; }
+    void talk() override { std::cout << "The pig says: wee wee" << std::endl; }
 };
 
 // Derived class
-class Dog : public Animal
+class Dog final : public Animal
 {
 public:
-    void talk() { std::cout << "The dog says: bow wow" << std::endl; }
+    void talk() override { std::cout << "The dog says: bow wow" << std::endl; }
+    void bark() { std::cout << "The dog barks" << std::endl; }
 };
 
 int main()
@@ -41,6 +45,9 @@ int main()
     Animal myAnimal;
     Pig myPig;
     Dog myDog;
+
+    Animal* anotherDog = new Dog();
+    anotherDog->talk();
 
     myAnimal.talk();
     myPig.talk();

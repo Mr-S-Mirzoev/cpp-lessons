@@ -60,7 +60,8 @@ public:
         case Colour::BLACK:
             return "black";
 
-        default : return "white";
+        default:
+            return "white";
         }
     }
 };
