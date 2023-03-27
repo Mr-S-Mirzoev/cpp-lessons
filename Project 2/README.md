@@ -1,18 +1,18 @@
-# Hash table
+# Long number
 
-Implement a [hash table](https://www.tutorialspoint.com/data_structures_algorithms/hash_data_structure.htm) as a template class:
+Implement a long number calculator. That insludes the fully operable long number with all the same operations as `int` type.
 
 ```cpp
-template <typename KeyT, typename ValT, typename HashF>
-class HashTable
+class LongNumber
 {
+    // ...
 public:
-    void add(KeyT const &key, ValT const &val);
-    void emplace(KeyT const &key, ValT const &val);
-
-    ValT get(KeyT const &key) const;
-    ValT& get(KeyT const &key);
-
-    void delete(KeyT const &key);
-};
+    operator int() const;
+    operator++(int);
+    operator--(int);
+    operator+();
+    operator>>(istream);
+    operator<<(ostream);
+    // ...
+}
 ```
