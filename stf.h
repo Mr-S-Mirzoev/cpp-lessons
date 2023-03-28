@@ -16,13 +16,13 @@ using TestException = std::runtime_error;
 #define STRINGIZE2(x) #x
 #define LINE_STRING STRINGIZE(__LINE__)
 
-#define RAISE(err_str) TestException(std::string(STRINGIZE(err_str)))
+#define RAISE(err_str) throw TestException(std::string(err_str))
 
 #define ASSERT_EQ(arg1, arg2)                                                  \
     ++count;                                                                   \
     if (arg1 != arg2)                                                          \
-        throw RAISE("Test error occured at " __FILE__ ":" LINE_STRING          \
-                    " (" #arg1 " is not equal to " #arg2 ")");
+        RAISE(("Test error occured at " __FILE__ ":" LINE_STRING " (" #arg1    \
+               " is not equal to " #arg2 ")"));
 
 #define ASSERT_TRUE(arg) ASSERT_EQ(arg, true);
 
@@ -33,20 +33,31 @@ using TestException = std::runtime_error;
     try                                                                        \
     {                                                                          \
         arg;                                                                   \
-        throw RAISE("Test error occured at " __FILE__ ":" LINE_STRING          \
-                    " (" #arg ") should throw an exception.");                 \
+        RAISE(("Test error occured at " __FILE__ ":" LINE_STRING " (" #arg     \
+               ") should throw an exception."));                               \
     }                                                                          \
     catch (exception_type e)                                                   \
     {                                                                          \
     }                                                                          \
     catch (...)                                                                \
     {                                                                          \
-        throw RAISE("Test error occured at " __FILE__ ":" LINE_STRING          \
-                    " (" #arg                                                  \
-                    ") should throw an exception of different type");          \
+        RAISE(("Test error occured at " __FILE__ ":" LINE_STRING " (" #arg     \
+               ") should throw an exception of different type"));              \
     };
 
 #define ASSERT_THROW_ANY(arg) ASSERT_THROW_TYPE(arg, std::exception);
+
+#define ASSERT_NO_THROW(arg)                                                   \
+    ++count;                                                                   \
+    try                                                                        \
+    {                                                                          \
+        arg;                                                                   \
+    }                                                                          \
+    catch (...)                                                                \
+    {                                                                          \
+        RAISE(("Test error occured at " __FILE__ ":" LINE_STRING " (" #arg     \
+               ") shouldn't throw an exception"));                             \
+    };
 
 #define EXPECT_EQ(arg1, arg2)                                                  \
     ++count;                                                                   \
@@ -71,6 +82,8 @@ using TestException = std::runtime_error;
     try                                                                        \
     {                                                                          \
         arg;                                                                   \
+        passed = false;                                                        \
+        ++asserted;                                                            \
         std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING         \
                      " (" #arg ") should throw an exception."                  \
                   << std::endl;                                                \
@@ -80,12 +93,29 @@ using TestException = std::runtime_error;
     }                                                                          \
     catch (...)                                                                \
     {                                                                          \
+        passed = false;                                                        \
+        ++asserted;                                                            \
         std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING         \
                      " (" #arg ") should throw an exception of different type" \
                   << std::endl;                                                \
     };
 
 #define EXPECT_THROW_ANY(arg) EXPECT_THROW_TYPE(arg, std::exception);
+
+#define EXPECT_NO_THROW(arg)                                                   \
+    ++count;                                                                   \
+    try                                                                        \
+    {                                                                          \
+        arg;                                                                   \
+    }                                                                          \
+    catch (...)                                                                \
+    {                                                                          \
+        passed = false;                                                        \
+        ++asserted;                                                            \
+        std::cerr << "Test error occured at " __FILE__ ":" LINE_STRING         \
+                     " (" #arg ") shouldn't throw an exception."               \
+                  << std::endl;                                                \
+    };
 
 #define UNIT_TEST_BEGIN(test_suite, test_name)                                 \
     std::cout << "[ RUN      ] " #test_suite "." #test_name << std::endl;      \
@@ -101,6 +131,7 @@ using TestException = std::runtime_error;
     }                                                                          \
     catch (TestException e)                                                    \
     {                                                                          \
+        ++asserted;                                                            \
         std::cout << "[ ASSERTED ] " #test_suite "." #test_name ": "           \
                   << e.what() << std::endl;                                    \
     }
@@ -117,7 +148,7 @@ using TestException = std::runtime_error;
     std::cout << count - asserted << " checks SUCCEED out of " << count        \
               << std::endl;                                                    \
     }                                                                          \
-    catch (TestException e)                                                    \
+    catch (std::exception e)                                                   \
     {                                                                          \
         std::cerr << e.what() << std::endl;                                    \
         return 1;                                                              \
