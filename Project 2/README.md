@@ -8,11 +8,22 @@ class LongNumber
     // ...
 public:
     operator int() const;
-    operator++(int);
-    operator--(int);
-    operator+();
-    operator>>(istream);
-    operator<<(ostream);
+
+    LongNumber& operator++();
+    LongNumber operator++(int);
+
+    LongNumber& operator--();
+    LongNumber operator--(int);
+
+    LongNumber& operator+=(LongNumber const& rhs);
+    LongNumber& operator-=(LongNumber const& rhs);
+    LongNumber& operator*=(LongNumber const& rhs);
+    LongNumber& operator/=(LongNumber const& rhs);
+
+    int operator<=>(LongNumber& rhs);
+
+    friend istream& operator>>(istream&, LongNumber const&);
+    friend ostream& operator<<(ostream&, LongNumber const&);
     // ...
 }
 ```
