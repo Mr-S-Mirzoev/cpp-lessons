@@ -1,12 +1,20 @@
-# Long number
+#pragma once
 
-Implement a long number calculator. That insludes the fully operable long number with all the same operations as `int` type.
+class istream;
+class ostream;
 
-```cpp
 class LongNumber
 {
-    // ...
+private:
+    int* data_ = nullptr;
+    int size = 0;
+
 public:
+    LongNumber() = default;
+    LongNumber(LongNumber const& other);
+
+    LongNumber(int number);
+
     operator int() const;
 
     LongNumber& operator++();
@@ -24,6 +32,6 @@ public:
 
     friend istream& operator>>(istream&, LongNumber const&);
     friend ostream& operator<<(ostream&, LongNumber const&);
-    // ...
-}
-```
+
+    ~LongNumber();
+};
